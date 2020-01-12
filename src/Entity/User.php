@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email", message="Un utilisateur ayant cette adresse existe déja!")
+ * @ApiResource
  */
 class User implements UserInterface
 {
@@ -16,11 +24,15 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"customers_read","invoices_subresource"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"customers_read","invoices_subresource"})
+     * @Assert\NotBlank(message="l'email obligatoire")
+     * @Assert\Email(message="l'email doit être dans un format valide!")
      */
     private $email;
 
@@ -32,11 +44,16 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="le mot de passe est obligatoire")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"customers_read", "invoices_read","invoices_subresource"})
+     * @Assert\NotBlank(message="le nom est obligatoire")
+     * @Assert\Length(min=3, minMessage = "le nom doit être entre 3 et 255 caractéres",
+     * max=255 ,maxMessage = "le nom doit être entre 3 et 255 caractéres")
      */
     private $lastName;
 
@@ -47,6 +64,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"customers_read", "invoices_read","invoices_subresource"})
+     * @Assert\NotBlank(message="le prénom est obligatoire")
+     * @Assert\Length(min=3, minMessage = "le prénom doit être entre 3 et 255 caractéres",
+     * max=255 ,maxMessage = "le prénom doit être entre 3 et 255 caractéres")
      */
     private $firstName;
 
