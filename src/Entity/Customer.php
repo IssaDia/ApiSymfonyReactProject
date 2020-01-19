@@ -70,6 +70,7 @@ class Customer
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer")
+     * @Groups({"customers_read"})
      * @ApiSubresource
      */
     private $invoices;
