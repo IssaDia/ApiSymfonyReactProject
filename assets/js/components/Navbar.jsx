@@ -38,7 +38,7 @@ const Navbar = ({history}) => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/factures">
+            <NavLink className="nav-link" to="/invoices">
               Factures
             </NavLink>
           </li>

@@ -58,7 +58,8 @@ function setUp() {
 };
 
 /**
- * Mise en place lors du chargement de l'application
+ * Permet de savoir si on est authentifié ou non
+ * @returns boolean
  */
 
 function isAuthenticated() {
