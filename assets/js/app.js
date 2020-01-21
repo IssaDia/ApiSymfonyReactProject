@@ -22,10 +22,9 @@ import PrivateRoute from './components/PrivateRoute';
 import InvoicePage from './pages/InvoicePage';
 import InvoicesPage from './pages/InvoicesPage';
 import RegisterPage from './pages/RegisterPage';
-
-
-
-
+import { ToastContainer } from 'react-toastify';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 AuthAPI.setUp();
 
@@ -56,10 +55,10 @@ const App = () => {
         </Switch>
     </main>
     </HashRouter>
-
-    </AuthContext.Provider> )
+    <ToastContainer position={toast.POSITION.BOTTOM}></ToastContainer>
+    </AuthContext.Provider> );
     
-}
+};
 
 const rootElement = document.querySelector("#app");
 ReactDOM.render(<App/>, rootElement);

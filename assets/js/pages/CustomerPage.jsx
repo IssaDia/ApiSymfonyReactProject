@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Field from "../components/forms/Field";
 import { Link } from "react-router-dom";
 import CustomersAPI from "../services/customersAPI";
+import { toast } from "react-toastify";
+
 
 const CustomerPage = ({ match, history }) => {
   const { id = "new" } = match.params;
@@ -33,10 +35,11 @@ const CustomerPage = ({ match, history }) => {
 
       setCustomer({ firstName, lastName, email, company });
     } catch (error) {
-      history.replace('/customers');
+      toast.error("Le client n'a pas pu être chargé");
+      history.replace("/customers");
     }
   };
-//Chargement du customer si besoin au chargement du composant ou au changement de l'id
+  //Chargement du customer si besoin au chargement du composant ou au changement de l'id
   useEffect(() => {
     if (id !== "new") {
       setEditing(true);
@@ -49,23 +52,26 @@ const CustomerPage = ({ match, history }) => {
   const handleSubmit = async event => {
     event.preventDefault;
     try {
+      setErrors({});
       if (editing) {
         await CustomersAPI.update(id);
+        toast.success("Le client a bien été modifié");
       } else {
         await CustomersAPI.create(customer);
-
+        toast.success("Le client a bien été créé");
         history.replace("/customers");
       }
 
-      setErrors({});
+      
     } catch ({ response }) {
-      const {violations} = response.data;
+      const { violations } = response.data;
       if (violations) {
         const apiErrors = {};
-          violations.forEach(({propertyPath, message}) => {
+        violations.forEach(({ propertyPath, message }) => {
           apiErrors[propertyPath] = message;
         });
         setErrors(apiErrors);
+        toast.error("Des erreurs dans votre formulaire");
       }
     }
   };
