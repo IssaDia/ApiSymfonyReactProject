@@ -14,6 +14,7 @@ const CustomersPage = props => {
   const fetchCustomers = async () => {
     try {
       const data = await CustomersAPI.findAll();
+      console.log(data);
       setCustomers(data);
       setLoading(false);
     } catch (error) {
@@ -127,7 +128,7 @@ const CustomersPage = props => {
                 <td>
                   <button
                     onClick={() => handleDelete(customer.id)}
-                    disabled={customer.invoices.length > 0}
+                    disabled={customer.invoices.length > 3}
                     className="btn btn-sm btn-danger"
                   >
                     Supprimer

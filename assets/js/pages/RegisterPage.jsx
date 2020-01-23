@@ -30,7 +30,7 @@ const RegisterPage = ({ history }) => {
   };
 
   const handleSubmit = async event => {
-    event.preventDefault;
+    event.preventDefault();
     const apiErrors = {};
     if (user.password !== user.passwordConfirm) {
       apiErrors.passwordConfirm = "Votre confirmation n'est pas conforme";

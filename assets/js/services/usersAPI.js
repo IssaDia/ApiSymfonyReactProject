@@ -1,10 +1,11 @@
 import axios from "axios";
+import { USERS_API } from "./config";
 
 
 
 function register() {
     return axios.post(
-        "http://127.0.0.1:8000/api/users",
+        USERS_API,
         user
     );
 }

@@ -25,7 +25,7 @@ const InvoicePage = ({ history, match }) => {
 
   //Récupération des clients
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = async id => {
     try {
       const data = await CustomersAPI.findAll();
       setCustomers(data);
@@ -39,9 +39,8 @@ const InvoicePage = ({ history, match }) => {
 
   const fetchInvoice = async id => {
     try {
-      const { amount, status, customer } = await invoicesAPI.find(id);
+      const { amount, status, customer } = await InvoicesAPI.find(id);
       setInvoice({ amount, status, customer: customer.id });
-      console.log(data);
     } catch (error) {
       toast.error("Impossible de charger la facture demandée");
       history.replace("/invoices");
@@ -72,7 +71,7 @@ const InvoicePage = ({ history, match }) => {
   //Gestion de la soumission du formulaire
 
   const handleSubmit = async event => {
-    event.preventDefault;
+    event.preventDefault();
     try {
       if (editing) {
         await InvoicesAPI.update(id, invoice);

@@ -4,25 +4,17 @@ import { Link } from "react-router-dom";
 import CustomersAPI from "../services/customersAPI";
 import { toast } from "react-toastify";
 
-
 const CustomerPage = ({ match, history }) => {
   const { id = "new" } = match.params;
 
   const [customer, setCustomer] = useState({
-    lastName: "",
     firstName: "",
+    lastName: "",
     email: "",
     company: ""
   });
 
   const [errors, setErrors] = useState({});
-
-  //Gestion des changements des input dans le formulaire
-
-  const handleChange = ({ currentTarget }) => {
-    const { name, value } = currentTarget;
-    setCustomer({ ...customer, [name]: value });
-  };
 
   const [editing, setEditing] = useState(false);
 
@@ -47,10 +39,17 @@ const CustomerPage = ({ match, history }) => {
     }
   }, [id]);
 
+  //Gestion des changements des input dans le formulaire
+
+  const handleChange = ({ currentTarget }) => {
+    const { name, value } = currentTarget;
+    setCustomer({ ...customer, [name]: value });
+  };
+
   //Gestion de la soumission du formulaire
 
   const handleSubmit = async event => {
-    event.preventDefault;
+    event.preventDefault();
     try {
       setErrors({});
       if (editing) {
@@ -61,8 +60,6 @@ const CustomerPage = ({ match, history }) => {
         toast.success("Le client a bien été créé");
         history.replace("/customers");
       }
-
-      
     } catch ({ response }) {
       const { violations } = response.data;
       if (violations) {
